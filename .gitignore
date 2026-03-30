@@ -7,7 +7,6 @@ out/
 
 # TinaCMS generated
 tina/__generated__/
-public/admin/
 
 # Environment variables — never commit real secrets
 .env
