@@ -3,8 +3,8 @@
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
-    { "source": "/admin", "destination": "/admin/index.html" },
-    { "source": "/admin/(.*)", "destination": "/admin/$1" },
+    { "source": "/admin", "destination": "/public/admin/index.html" },
+    { "source": "/admin/(.*)", "destination": "/public/admin/$1" },
     { "source": "/((?!admin).*)", "destination": "/index.html" }
   ]
 }
