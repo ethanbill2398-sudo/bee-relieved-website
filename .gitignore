@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# TinaCMS generated
+tina/__generated__/
+public/admin/
+
+# Environment variables — never commit real secrets
+.env
+.env.local
+.env.production
+
+# macOS
+.DS_Store
+
+# Claude Code local settings
+.claude/
+
+# Logs
+npm-debug.log*

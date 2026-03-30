@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "headingLine1": "Heal. Restore.",
+    "headingLine2": "Be Relieved.",
+    "subtext": "Registered massage and manual osteopathic therapy tailored to your body's unique needs — treating the root cause, not just the symptoms.",
+    "ctaPrimaryLabel": "Book Online",
+    "ctaSecondaryLabel": "Call or Text: (306) 852-7969",
+    "heroImage": "/uploads/JPEG image 4.jpeg"
+  },
+  "about": {
+    "therapistName": "Chloe",
+    "therapistNameItalic": "Jackson-Kotko",
+    "bio": "I'm a Registered Massage Therapist and Manual Osteopathic Therapist based in Saskatoon, SK. My approach goes beyond surface-level relief — I specialize in therapeutic treatment that works with all systems of the body to find the root cause of your pain or dysfunction. Whether you're dealing with chronic tension, injury recovery, postural issues, or stress, I'm here to create a personalized treatment plan. Every session is in a clean, relaxing, and welcoming environment.",
+    "photo": "/uploads/JPEG image 6.jpeg",
+    "credentials": "Registered Massage Therapist (RMT) · Manual Osteopathic Therapist",
+    "location": "Integrative Therapies Health Collective, 1647 29th St W, Saskatoon, SK",
+    "contactNote": "Texting gets the fastest response!"
+  },
+  "bookingCta": {
+    "heading": "Book Your Session",
+    "headingItalic": "Today",
+    "subtext": "Online booking is fast and easy through Jane App. Prefer to reach out first? Text us for the fastest response."
+  }
+}

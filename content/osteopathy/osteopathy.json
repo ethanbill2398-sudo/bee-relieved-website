@@ -1,0 +1,63 @@
+{
+  "sectionLabel": "Education",
+  "heading": "What is Manual",
+  "headingItalic": "Osteopathy?",
+  "paragraph1": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "Manual Osteopathy is a hands-on therapy that focuses on identifying and treating the "
+          },
+          {
+            "type": "text",
+            "bold": true,
+            "text": "root cause"
+          },
+          {
+            "type": "text",
+            "text": " of pain and dysfunction — not just the symptoms. Unlike a standard massage, osteopathic therapy works with the body as a whole, addressing the relationships between your muscles, joints, fascia, organs, and nervous system."
+          }
+        ]
+      }
+    ]
+  },
+  "paragraph2": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "Osteopathic therapists are trained to assess how different body systems interact and compensate for one another. That tight shoulder? It might actually be connected to tension in your hip or restrictions in your thoracic spine. Manual osteopathy finds and resolves these connections."
+          }
+        ]
+      }
+    ]
+  },
+  "features": [
+    {
+      "title": "Whole-Body Approach",
+      "description": "Treats the body as an interconnected system, not isolated parts."
+    },
+    {
+      "title": "Root Cause Focus",
+      "description": "Identifies why dysfunction is occurring, not just where it hurts."
+    },
+    {
+      "title": "Gentle Techniques",
+      "description": "Soft tissue, joint mobilization, and fascial release methods."
+    },
+    {
+      "title": "Lasting Results",
+      "description": "Addresses patterns of tension for long-term recovery."
+    }
+  ],
+  "mainImage": "/uploads/osteo-neck-work.jpg",
+  "overlayImage": "/uploads/osteo-adjustment.jpg",
+  "ctaLabel": "Book an Osteopathy Session"
+}
