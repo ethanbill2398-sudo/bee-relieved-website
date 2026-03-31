@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx tinacms build --skip-cloud-checks",
+  "buildCommand": "npx tinacms build",
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
