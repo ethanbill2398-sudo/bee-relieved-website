@@ -1,10 +1,11 @@
 {
-  "buildCommand": "npx tinacms build",
+  "buildCommand": "npx tinacms build && node scripts/build.js",
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
     { "source": "/admin", "destination": "/public/admin/index.html" },
     { "source": "/admin/(.*)", "destination": "/public/admin/$1" },
-    { "source": "/((?!admin).*)", "destination": "/index.html" }
+    { "source": "/uploads/(.*)", "destination": "/public/uploads/$1" },
+    { "source": "/((?!admin|uploads).*)", "destination": "/index.html" }
   ]
 }

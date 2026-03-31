@@ -1,10 +1,158 @@
-<!DOCTYPE html>
+#!/usr/bin/env node
+/**
+ * build.js — Generates index.html from TinaCMS JSON content files.
+ * Run via: node scripts/build.js
+ * Vercel runs this as part of the build step.
+ */
+
+const fs   = require('fs');
+const path = require('path');
+
+const ROOT    = path.join(__dirname, '..');
+const CONTENT = path.join(ROOT, 'content');
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+
+function readJSON(relPath) {
+  return JSON.parse(fs.readFileSync(path.join(CONTENT, relPath), 'utf8'));
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function imgSrc(p) {
+  if (!p) return '';
+  return p.replace(/ /g, '%20');
+}
+
+// Convert TinaCMS rich-text node → HTML string
+function richToHtml(node) {
+  if (!node) return '';
+  if (node.type === 'text') {
+    let t = esc(node.text || '');
+    if (node.bold)   t = `<strong>${t}</strong>`;
+    if (node.italic) t = `<em>${t}</em>`;
+    return t;
+  }
+  const inner = (node.children || []).map(richToHtml).join('');
+  if (node.type === 'p')    return inner;
+  if (node.type === 'root') return inner;
+  return inner;
+}
+
+function stars(n) { return '&#9733;'.repeat(n || 5); }
+
+// ── load content ─────────────────────────────────────────────────────────────
+
+const S  = readJSON('settings/settings.json');
+const HP = readJSON('homepage/homepage.json');
+
+const services = [
+  readJSON('services/registered-massage-therapy.json'),
+  readJSON('services/manual-osteopathic-therapy.json'),
+  readJSON('services/cupping-therapy.json'),
+].sort((a, b) => a.order - b.order);
+
+const osteo    = readJSON('osteopathy/osteopathy.json');
+
+const training = [
+  readJSON('training/advanced-massage-therapy-diploma.json'),
+  readJSON('training/manual-osteopathic-therapy-diploma.json'),
+  readJSON('training/professional-cupping-therapies.json'),
+].sort((a, b) => a.order - b.order);
+
+const reviews = [
+  readJSON('reviews/chad-turgeon.json'),
+  readJSON('reviews/supernova.json'),
+  readJSON('reviews/darlene-jackson.json'),
+].sort((a, b) => a.order - b.order);
+
+// ── derived values ────────────────────────────────────────────────────────────
+
+const BOOK_URL   = 'https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11';
+const phoneDigits = S.phone.replace(/\D/g, '');
+
+// ── section generators ────────────────────────────────────────────────────────
+
+function serviceCards() {
+  const delays = ['', ' delay-1', ' delay-2'];
+  return services.map((svc, i) => {
+    const featured = svc.featured ? ' featured' : '';
+    const imgStyle = svc.featured ? ' style="object-position: center 30%;"' : '';
+    const imgTag   = svc.image
+      ? `\n        <img src="${imgSrc(svc.image)}" alt="${esc(svc.title)}" class="service-img"${imgStyle} />`
+      : '';
+    return `      <article class="service-card${featured} fade-up${delays[i] || ''}">
+        ${imgTag}
+        <div class="service-body">
+          <div class="service-icon">${svc.icon}</div>
+          <h3 class="service-title">${esc(svc.title)}</h3>
+          <p class="service-desc">${esc(svc.description)}</p>
+          <a href="${BOOK_URL}" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
+        </div>
+      </article>`;
+  }).join('\n\n');
+}
+
+function osteoFeatureTiles() {
+  return (osteo.features || []).map(f => `          <div class="osteo-feature">
+            <div class="osteo-feature-title">${esc(f.title)}</div>
+            <div class="osteo-feature-desc">${esc(f.description)}</div>
+          </div>`).join('\n');
+}
+
+function trainingCards() {
+  const delays = ['', ' delay-1', ' delay-2'];
+  return training.map((c, i) => {
+    const sub      = c.dateCompleted ? `${esc(c.institution)} &middot; ${esc(c.dateCompleted)}` : esc(c.institution);
+    const imgStyle = c.title.includes('Advanced') ? ' style="object-position: center 30%;"' : '';
+    const imgTag   = c.image
+      ? `\n        <img src="${imgSrc(c.image)}" alt="${esc(c.title)}" class="training-card-img"${imgStyle} />`
+      : '';
+    return `      <article class="training-card fade-up${delays[i] || ''}">
+        <div class="training-icon">${c.icon}</div>
+        <h3 class="training-card-title">${esc(c.title)}</h3>
+        <div class="training-card-sub">${sub}</div>${imgTag}
+        <p class="training-card-desc">${esc(c.description)}</p>
+        <span class="training-badge">${esc(c.badgeLabel)}</span>
+      </article>`;
+  }).join('\n\n');
+}
+
+function reviewCards() {
+  const delays = ['', ' delay-1', ' delay-2'];
+  return reviews.map((r, i) => {
+    const initial = (r.reviewerName || 'G').charAt(0).toUpperCase();
+    return `      <article class="review-card fade-up${delays[i] || ''}">
+        <div class="review-stars" aria-label="${r.rating} stars">${stars(r.rating)}</div>
+        <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
+        <p class="review-text">${esc(r.reviewText)}</p>
+        <div class="review-author">
+          <div class="review-avatar" aria-hidden="true">${initial}</div>
+          <div class="review-author-info">
+            <span class="review-name">${esc(r.reviewerName)}</span>
+            <span class="review-platform">${esc(r.platform)}</span>
+          </div>
+        </div>
+      </article>`;
+  }).join('\n\n');
+}
+
+// ── final HTML ────────────────────────────────────────────────────────────────
+
+const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bee Relieved Massage &amp; Manual Osteopathic Therapy | Chloe Jackson-Kotko | Saskatoon, SK</title>
-  <meta name="description" content="Registered massage therapy and manual osteopathic therapy in Saskatoon, SK. Chloe Jackson-Kotko helps you heal from the root cause. 5.0-star rated. Book online today." />
+  <title>${esc(S.businessName)} | Chloe Jackson-Kotko | Saskatoon, SK</title>
+  <meta name="description" content="Registered massage therapy and manual osteopathic therapy in Saskatoon, SK. Chloe Jackson-Kotko helps you heal from the root cause. ${esc(S.googleReviewScore)}-star rated. Book online today." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
@@ -1429,8 +1577,8 @@
 
   <!-- NAV -->
   <nav id="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="#hero" class="nav-brand" aria-label="Bee Relieved Massage &amp; Manual Osteopathic Therapy home">
-      <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="nav-logo-img" />
+    <a href="#hero" class="nav-brand" aria-label="${esc(S.businessName)} home">
+      <img src="logo.png" alt="${esc(S.businessName)}" class="nav-logo-img" />
     </a>
 
     <ul class="nav-links" role="list">
@@ -1442,7 +1590,7 @@
     </ul>
 
     <div class="nav-right">
-      <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Book Now</a>
+      <a href="${BOOK_URL}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Book Now</a>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
@@ -1455,50 +1603,50 @@
     <a href="#osteopathy" class="mobile-nav-link">Osteopathy</a>
     <a href="#training" class="mobile-nav-link">Training</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
-    <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary" target="_blank" rel="noopener noreferrer">&#128197; Book Online</a>
+    <a href="${BOOK_URL}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">&#128197; Book Online</a>
   </div>
 
   <!-- HERO -->
   <section id="hero" aria-label="Hero">
     <div class="hero-left">
       <div class="hero-logo fade-up">
-        <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="hero-logo-img" />
+        <img src="logo.png" alt="${esc(S.businessName)}" class="hero-logo-img" />
       </div>
       <div class="hero-eyebrow fade-up delay-1">
         <span class="hero-eyebrow-line"></span>
         <span class="hero-eyebrow-text">Saskatoon, Saskatchewan</span>
       </div>
       <h1 class="hero-heading fade-up delay-2">
-        Heal. Restore.<br>
-        <span class="italic-brown">Be Relieved.</span>
+        ${esc(HP.hero.headingLine1)}<br>
+        <span class="italic-brown">${esc(HP.hero.headingLine2)}</span>
       </h1>
-      <p class="hero-sub fade-up delay-3">Registered massage and manual osteopathic therapy tailored to your body's unique needs — treating the root cause, not just the symptoms.</p>
+      <p class="hero-sub fade-up delay-3">${esc(HP.hero.subtext)}</p>
       <div class="hero-ctas fade-up delay-3">
-        <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
-          &#128197; Book Online
+        <a href="${BOOK_URL}" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
+          &#128197; ${esc(HP.hero.ctaPrimaryLabel)}
         </a>
-        <a href="tel:3068527969" class="btn btn-outline btn-lg">
-          &#128241; Call or Text: (306) 852-7969
+        <a href="tel:${phoneDigits}" class="btn btn-outline btn-lg">
+          &#128241; ${esc(HP.hero.ctaSecondaryLabel)}
         </a>
       </div>
       <div class="hero-rating fade-up delay-4">
         <span class="hero-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <span class="hero-rating-text">5.0 &middot; Google Reviews</span>
+        <span class="hero-rating-text">${esc(S.googleReviewScore)} &middot; Google Reviews</span>
       </div>
     </div>
 
     <div class="hero-right">
-      <img src="/uploads/JPEG%20image%204.jpeg" alt="Chloe Jackson-Kotko performing massage therapy" />
+      <img src="${imgSrc(HP.hero.heroImage)}" alt="Chloe Jackson-Kotko performing massage therapy" />
       <div class="hero-fade" aria-hidden="true"></div>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about" aria-label="About Chloe Jackson-Kotko">
+  <section id="about" aria-label="About ${esc(HP.about.therapistName)} ${esc(HP.about.therapistNameItalic)}">
     <div class="about-grid">
       <div class="about-image-wrap fade-up">
-        <img src="/uploads/JPEG%20image%206.jpeg" alt="Chloe Jackson-Kotko, Registered Massage Therapist" />
-        <div class="about-badge" aria-label="5.0 star Google reviews">
+        <img src="${imgSrc(HP.about.photo)}" alt="${esc(HP.about.therapistName)} ${esc(HP.about.therapistNameItalic)}, Registered Massage Therapist" />
+        <div class="about-badge" aria-label="${esc(S.googleReviewScore)} star Google reviews">
           <span class="about-badge-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
           <span class="about-badge-text">Google Reviews</span>
         </div>
@@ -1506,28 +1654,28 @@
 
       <div class="about-content">
         <span class="section-label fade-up">Meet Your Therapist</span>
-        <h2 class="fade-up delay-1">Chloe <em>Jackson-Kotko</em></h2>
-        <p class="about-body fade-up delay-2">I'm a Registered Massage Therapist and Manual Osteopathic Therapist based in Saskatoon, SK. My approach goes beyond surface-level relief — I specialize in therapeutic treatment that works with all systems of the body to find the root cause of your pain or dysfunction. Whether you're dealing with chronic tension, injury recovery, postural issues, or stress, I'm here to create a personalized treatment plan. Every session is in a clean, relaxing, and welcoming environment.</p>
+        <h2 class="fade-up delay-1">${esc(HP.about.therapistName)} <em>${esc(HP.about.therapistNameItalic)}</em></h2>
+        <p class="about-body fade-up delay-2">${esc(HP.about.bio)}</p>
         <div class="about-cards">
           <div class="about-card fade-up delay-2">
             <span class="about-card-icon">&#128205;</span>
             <div class="about-card-text">
               <span class="about-card-label">Location</span>
-              Integrative Therapies Health Collective, 1647 29th St W, Saskatoon, SK
+              ${esc(HP.about.location)}
             </div>
           </div>
           <div class="about-card fade-up delay-3">
             <span class="about-card-icon">&#128222;</span>
             <div class="about-card-text">
               <span class="about-card-label">Contact</span>
-              (306) 852-7969 &mdash; Texting gets the fastest response!
+              ${esc(S.phone)} &mdash; ${esc(HP.about.contactNote)}
             </div>
           </div>
           <div class="about-card fade-up delay-4">
             <span class="about-card-icon">&#127973;</span>
             <div class="about-card-text">
               <span class="about-card-label">Credentials</span>
-              Registered Massage Therapist (RMT) · Manual Osteopathic Therapist
+              ${esc(HP.about.credentials)}
             </div>
           </div>
         </div>
@@ -1542,42 +1690,11 @@
         <span class="section-label fade-up">What I Offer</span>
         <h2 class="fade-up delay-1">Treatments &amp; <em>Services</em></h2>
       </div>
-      <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-outline fade-up delay-1" target="_blank" rel="noopener noreferrer">View All &amp; Book</a>
+      <a href="${BOOK_URL}" class="btn btn-outline fade-up delay-1" target="_blank" rel="noopener noreferrer">View All &amp; Book</a>
     </div>
 
     <div class="services-grid">
-      <article class="service-card fade-up">
-        
-        <img src="/uploads/JPEG%20image.jpeg" alt="Registered Massage Therapy" class="service-img" />
-        <div class="service-body">
-          <div class="service-icon">🙌</div>
-          <h3 class="service-title">Registered Massage Therapy</h3>
-          <p class="service-desc">Evidence-based therapeutic massage addressing muscle tension, pain, and injury. From relaxation to deep therapeutic work — tailored to what your body needs most.</p>
-          <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
-        </div>
-      </article>
-
-      <article class="service-card featured fade-up delay-1">
-        
-        <img src="/uploads/osteo-shoulder-assessment.jpg" alt="Manual Osteopathic Therapy" class="service-img" style="object-position: center 30%;" />
-        <div class="service-body">
-          <div class="service-icon">⚡</div>
-          <h3 class="service-title">Manual Osteopathic Therapy</h3>
-          <p class="service-desc">A whole-body approach treating the root cause of pain by working with musculoskeletal, fascial, and nervous systems together. More than massage — it's full-body healing.</p>
-          <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
-        </div>
-      </article>
-
-      <article class="service-card fade-up delay-2">
-        
-        <img src="/uploads/JPEG%20image%207.jpeg" alt="Cupping Therapy" class="service-img" />
-        <div class="service-body">
-          <div class="service-icon">⭕</div>
-          <h3 class="service-title">Cupping Therapy</h3>
-          <p class="service-desc">Professionally certified cupping to improve circulation, release deep tissue tension, and promote healing. Often integrated into sessions for enhanced results.</p>
-          <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
-        </div>
-      </article>
+${serviceCards()}
     </div>
   </section>
 
@@ -1585,34 +1702,19 @@
   <section id="osteopathy" aria-label="What is Manual Osteopathy">
     <div class="osteo-grid">
       <div class="osteo-left">
-        <span class="section-label fade-up">Education</span>
-        <h2 class="fade-up delay-1">What is Manual <em>Osteopathy?</em></h2>
-        <p class="osteo-para fade-up delay-2">Manual Osteopathy is a hands-on therapy that focuses on identifying and treating the <strong>root cause</strong> of pain and dysfunction — not just the symptoms. Unlike a standard massage, osteopathic therapy works with the body as a whole, addressing the relationships between your muscles, joints, fascia, organs, and nervous system.</p>
-        <p class="osteo-para fade-up delay-2">Osteopathic therapists are trained to assess how different body systems interact and compensate for one another. That tight shoulder? It might actually be connected to tension in your hip or restrictions in your thoracic spine. Manual osteopathy finds and resolves these connections.</p>
+        <span class="section-label fade-up">${esc(osteo.sectionLabel)}</span>
+        <h2 class="fade-up delay-1">${esc(osteo.heading)} <em>${esc(osteo.headingItalic)}</em></h2>
+        <p class="osteo-para fade-up delay-2">${richToHtml(osteo.paragraph1)}</p>
+        <p class="osteo-para fade-up delay-2">${richToHtml(osteo.paragraph2)}</p>
         <div class="osteo-features fade-up delay-3">
-          <div class="osteo-feature">
-            <div class="osteo-feature-title">Whole-Body Approach</div>
-            <div class="osteo-feature-desc">Treats the body as an interconnected system, not isolated parts.</div>
-          </div>
-          <div class="osteo-feature">
-            <div class="osteo-feature-title">Root Cause Focus</div>
-            <div class="osteo-feature-desc">Identifies why dysfunction is occurring, not just where it hurts.</div>
-          </div>
-          <div class="osteo-feature">
-            <div class="osteo-feature-title">Gentle Techniques</div>
-            <div class="osteo-feature-desc">Soft tissue, joint mobilization, and fascial release methods.</div>
-          </div>
-          <div class="osteo-feature">
-            <div class="osteo-feature-title">Lasting Results</div>
-            <div class="osteo-feature-desc">Addresses patterns of tension for long-term recovery.</div>
-          </div>
+${osteoFeatureTiles()}
         </div>
-        <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary fade-up delay-4" target="_blank" rel="noopener noreferrer">Book an Osteopathy Session</a>
+        <a href="${BOOK_URL}" class="btn btn-primary fade-up delay-4" target="_blank" rel="noopener noreferrer">${esc(osteo.ctaLabel)}</a>
       </div>
 
       <div class="osteo-right fade-up delay-1">
-        <img src="/uploads/osteo-neck-work.jpg" alt="Chloe performing manual osteopathic therapy" class="osteo-img-main" />
-        <img src="/uploads/osteo-adjustment.jpg" alt="Manual osteopathic spinal adjustment" class="osteo-img-overlay" style="filter: grayscale(20%); object-position: center 30%;" />
+        <img src="${imgSrc(osteo.mainImage)}" alt="Chloe performing manual osteopathic therapy" class="osteo-img-main" />
+        <img src="${imgSrc(osteo.overlayImage)}" alt="Manual osteopathic spinal adjustment" class="osteo-img-overlay" style="filter: grayscale(20%); object-position: center 30%;" />
       </div>
     </div>
   </section>
@@ -1625,31 +1727,7 @@
     </div>
 
     <div class="training-grid">
-      <article class="training-card fade-up">
-        <div class="training-icon">🎓</div>
-        <h3 class="training-card-title">Advanced Massage Therapy Diploma</h3>
-        <div class="training-card-sub">Professional Institute of Massage Therapy · With Distinction</div>
-        <img src="/uploads/WebP%20Image.webp" alt="Advanced Massage Therapy Diploma" class="training-card-img" style="object-position: center 30%;" />
-        <p class="training-card-desc">Comprehensive training in anatomy, physiology, pathology, and hands-on therapeutic massage techniques — awarded With Distinction.</p>
-        <span class="training-badge">✓ Registered RMT</span>
-      </article>
-
-      <article class="training-card fade-up delay-1">
-        <div class="training-icon">🦴</div>
-        <h3 class="training-card-title">Manual Osteopathic Therapy</h3>
-        <div class="training-card-sub">Manual Osteopathy Diploma Program</div>
-        <p class="training-card-desc">Advanced training in osteopathic principles, full-body assessment, fascial release, joint mobilization, and visceral manipulation.</p>
-        <span class="training-badge">✓ Certified</span>
-      </article>
-
-      <article class="training-card fade-up delay-2">
-        <div class="training-icon">⭕</div>
-        <h3 class="training-card-title">Professional Cupping Therapies</h3>
-        <div class="training-card-sub">Whole Health Institute · Manitoba Beach, SK &middot; November 2024</div>
-        <img src="/uploads/JPEG%20image%203.jpeg" alt="Professional Cupping Therapies" class="training-card-img" />
-        <p class="training-card-desc">14-hour professional certification in cupping therapy including static, dynamic, and gliding cup techniques.</p>
-        <span class="training-badge">✓ Certified Nov 2024</span>
-      </article>
+${trainingCards()}
     </div>
   </section>
 
@@ -1660,52 +1738,15 @@
         <span class="section-label fade-up">Testimonials</span>
         <h2 class="fade-up delay-1">What Clients <em>Are Saying</em></h2>
       </div>
-      <div class="reviews-score-box fade-up delay-1" aria-label="5.0 stars based on Google reviews">
-        <span class="reviews-score-num">5.0</span>
+      <div class="reviews-score-box fade-up delay-1" aria-label="${esc(S.googleReviewScore)} stars based on Google reviews">
+        <span class="reviews-score-num">${esc(S.googleReviewScore)}</span>
         <span class="reviews-score-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
         <span class="reviews-score-label">Based on Google reviews</span>
       </div>
     </div>
 
     <div class="reviews-grid">
-      <article class="review-card fade-up">
-        <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">She did a great job, table was comfy, clean room, great massage.</p>
-        <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">C</div>
-          <div class="review-author-info">
-            <span class="review-name">Chad Turgeon</span>
-            <span class="review-platform">Google Review</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="review-card fade-up delay-1">
-        <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">Relaxing, calm and clean environment.</p>
-        <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">S</div>
-          <div class="review-author-info">
-            <span class="review-name">Supernova</span>
-            <span class="review-platform">Google Review</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="review-card fade-up delay-2">
-        <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">The room is very clean and relaxing atmosphere.</p>
-        <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">D</div>
-          <div class="review-author-info">
-            <span class="review-name">Darlene Jackson</span>
-            <span class="review-platform">Google Review</span>
-          </div>
-        </div>
-      </article>
+${reviewCards()}
     </div>
   </section>
 
@@ -1714,21 +1755,21 @@
     <div class="booking-inner">
       <img src="logo.png" alt="" aria-hidden="true" class="fade-up" style="height:100px;width:auto;margin:0 auto 1.5rem;display:block;opacity:0.9;" />
       <span class="section-label fade-up" style="color: var(--blush); opacity: 0.7;">Ready to Feel Better?</span>
-      <h2 class="fade-up delay-1">Book Your Session <em>Today</em></h2>
-      <p class="booking-sub fade-up delay-2">Online booking is fast and easy through Jane App. Prefer to reach out first? Text us for the fastest response.</p>
+      <h2 class="fade-up delay-1">${esc(HP.bookingCta.heading)} <em>${esc(HP.bookingCta.headingItalic)}</em></h2>
+      <p class="booking-sub fade-up delay-2">${esc(HP.bookingCta.subtext)}</p>
       <div class="booking-buttons fade-up delay-3">
-        <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-cream btn-lg" target="_blank" rel="noopener noreferrer">
+        <a href="${BOOK_URL}" class="btn btn-cream btn-lg" target="_blank" rel="noopener noreferrer">
           &#128197; Book Online &mdash; Jane App
         </a>
-        <a href="sms:3068527969" class="btn btn-outline-cream btn-lg">
-          &#128172; Text: (306) 852-7969
+        <a href="sms:${phoneDigits}" class="btn btn-outline-cream btn-lg">
+          &#128172; Text: ${esc(S.phone)}
         </a>
-        <a href="tel:3068527969" class="btn btn-outline-cream btn-lg">
-          &#128222; Call: (306) 852-7969
+        <a href="tel:${phoneDigits}" class="btn btn-outline-cream btn-lg">
+          &#128222; Call: ${esc(S.phone)}
         </a>
       </div>
       <p class="booking-location fade-up delay-4">
-        &#128205; Located in Integrative Therapies Health Collective, 1647 29th St W &middot; Saskatoon, SK S7L 0N6
+        &#128205; ${esc(S.address)} &middot; ${esc(S.city)}
       </p>
     </div>
   </section>
@@ -1737,17 +1778,17 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-col-brand">
-        <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="footer-logo-img" />
+        <img src="logo.png" alt="${esc(S.businessName)}" class="footer-logo-img" />
         <div class="footer-brand-name">Bee Relieved</div>
         <div class="footer-tagline">Massage &amp; Manual Osteopathic Therapy</div>
         <p class="footer-desc">
           Registered massage and manual osteopathic therapy in Saskatoon, SK. Chloe Jackson-Kotko helps you find real, lasting relief by treating the root cause &mdash; not just the symptoms.
         </p>
         <div class="social-links">
-          <a href="https://www.instagram.com/bee_relieved/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a href="${esc(S.instagramUrl)}" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
-          <a href="https://www.facebook.com/people/Bee-Relieved/61569666006716/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <a href="${esc(S.facebookUrl)}" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
           </a>
         </div>
@@ -1767,10 +1808,10 @@
       <div class="footer-col">
         <h4>Services</h4>
         <ul class="footer-links" role="list">
-          <li><a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" target="_blank" rel="noopener noreferrer">Registered Massage Therapy</a></li>
-          <li><a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" target="_blank" rel="noopener noreferrer">Manual Osteopathic Therapy</a></li>
-          <li><a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" target="_blank" rel="noopener noreferrer">Cupping Therapy</a></li>
-          <li><a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" target="_blank" rel="noopener noreferrer">Book Online</a></li>
+          <li><a href="${BOOK_URL}" target="_blank" rel="noopener noreferrer">Registered Massage Therapy</a></li>
+          <li><a href="${BOOK_URL}" target="_blank" rel="noopener noreferrer">Manual Osteopathic Therapy</a></li>
+          <li><a href="${BOOK_URL}" target="_blank" rel="noopener noreferrer">Cupping Therapy</a></li>
+          <li><a href="${BOOK_URL}" target="_blank" rel="noopener noreferrer">Book Online</a></li>
         </ul>
       </div>
 
@@ -1779,27 +1820,27 @@
         <div class="footer-contact-item">
           <span class="footer-contact-icon">&#128205;</span>
           <div class="footer-contact-text">
-            Located in Integrative Therapies Health Collective, 1647 29th St W<br>Saskatoon, SK S7L 0N6
+            ${esc(S.address)}<br>${esc(S.city)}
           </div>
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">&#128222;</span>
           <div class="footer-contact-text">
-            <a href="tel:3068527969">(306) 852-7969</a><br>
+            <a href="tel:${phoneDigits}">${esc(S.phone)}</a><br>
             <span class="footer-note">Texting is fastest!</span>
           </div>
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">&#128197;</span>
           <div class="footer-contact-text">
-            <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" target="_blank" rel="noopener noreferrer">Book via Jane App</a>
+            <a href="${BOOK_URL}" target="_blank" rel="noopener noreferrer">Book via Jane App</a>
           </div>
         </div>
       </div>
     </div>
 
     <div class="footer-bar">
-      <span class="footer-copyright">&copy; 2026 Bee Relieved Massage &amp; Manual Osteopathic Therapy &middot; Chloe Jackson-Kotko &middot; Saskatoon, SK</span>
+      <span class="footer-copyright">&copy; ${new Date().getFullYear()} ${esc(S.businessName)} &middot; Chloe Jackson-Kotko &middot; Saskatoon, SK</span>
       <span class="footer-made">All rights reserved</span>
     </div>
   </footer>
@@ -1869,4 +1910,10 @@
     });
   </script>
 </body>
-</html>
+</html>`;
+
+// ── write output ──────────────────────────────────────────────────────────────
+
+const outPath = path.join(ROOT, 'index.html');
+fs.writeFileSync(outPath, html, 'utf8');
+console.log(`✅  index.html generated (${(html.length / 1024).toFixed(1)} KB)`);
