@@ -1,44 +1,9 @@
 {
   "sectionLabel": "Education",
-  "heading": "What is Manual",
-  "headingItalic": "Osteopathy?",
-  "paragraph1": {
-    "type": "root",
-    "children": [
-      {
-        "type": "p",
-        "children": [
-          {
-            "type": "text",
-            "text": "Manual Osteopathy is a hands-on therapy that focuses on identifying and treating the "
-          },
-          {
-            "type": "text",
-            "bold": true,
-            "text": "root cause"
-          },
-          {
-            "type": "text",
-            "text": " of pain and dysfunction — not just the symptoms. Unlike a standard massage, osteopathic therapy works with the body as a whole, addressing the relationships between your muscles, joints, fascia, organs, and nervous system."
-          }
-        ]
-      }
-    ]
-  },
-  "paragraph2": {
-    "type": "root",
-    "children": [
-      {
-        "type": "p",
-        "children": [
-          {
-            "type": "text",
-            "text": "Osteopathic therapists are trained to assess how different body systems interact and compensate for one another. That tight shoulder? It might actually be connected to tension in your hip or restrictions in your thoracic spine. Manual osteopathy finds and resolves these connections."
-          }
-        ]
-      }
-    ]
-  },
+  "heading": "What is",
+  "headingItalic": "Manual Osteopathic Therapy?",
+  "paragraph1": "\\[object Object]\n",
+  "paragraph2": "\\[object Object]\n",
   "features": [
     {
       "title": "Whole-Body Approach",
@@ -58,6 +23,6 @@
     }
   ],
   "mainImage": "/uploads/osteo-neck-work.jpg",
-  "overlayImage": "/uploads/osteo-adjustment.jpg",
+  "overlayImage": "/uploads/sneakpeek-04.jpeg",
   "ctaLabel": "Book an Osteopathy Session"
 }
