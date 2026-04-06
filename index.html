@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bee Relieved Massage &amp; Manual Osteopathic Therapy | Chloe Jackson-Kotko | Saskatoon, SK</title>
+  <title>Bee Relieved Holistic Therapies | Chloe Jackson-Kotko | Saskatoon, SK</title>
   <meta name="description" content="Registered massage therapy and manual osteopathic therapy in Saskatoon, SK. Chloe Jackson-Kotko helps you heal from the root cause. 5.0-star rated. Book online today." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1010,6 +1010,97 @@
     }
 
     /* ============================================================
+       CANCELLATION POLICY
+    ============================================================ */
+    #cancellation {
+      background: var(--blush);
+      padding: 5rem 8%;
+    }
+
+    .cancel-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .cancel-inner h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .cancel-intro {
+      font-size: 0.95rem;
+      color: var(--dark);
+      opacity: 0.7;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .cancel-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .cancel-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border-top: 3px solid var(--brown);
+    }
+
+    .cancel-card-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: var(--brown);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .cancel-card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .cancel-card-desc {
+      font-size: 0.875rem;
+      color: var(--dark);
+      opacity: 0.68;
+      line-height: 1.6;
+    }
+
+    .cancel-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: rgba(130,88,49,0.07);
+      border-left: 3px solid var(--brown);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.25rem;
+      font-size: 0.88rem;
+      color: var(--dark);
+      line-height: 1.65;
+    }
+
+    .cancel-note-icon {
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      #cancellation { padding: 4rem 5%; }
+      .cancel-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
        BOOKING CTA
     ============================================================ */
     #booking {
@@ -1429,14 +1520,14 @@
 
   <!-- NAV -->
   <nav id="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="#hero" class="nav-brand" aria-label="Bee Relieved Massage &amp; Manual Osteopathic Therapy home">
-      <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="nav-logo-img" />
+    <a href="#hero" class="nav-brand" aria-label="Bee Relieved Holistic Therapies home">
+      <img src="logo.png" alt="Bee Relieved Holistic Therapies" class="nav-logo-img" />
     </a>
 
     <ul class="nav-links" role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
-      <li><a href="#osteopathy">Osteopathy</a></li>
+      <li><a href="#osteopathy">Manual Osteopathic Therapy</a></li>
       <li><a href="#training">Training</a></li>
       <li><a href="#reviews">Reviews</a></li>
     </ul>
@@ -1452,7 +1543,7 @@
   <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
     <a href="#about" class="mobile-nav-link">About</a>
     <a href="#services" class="mobile-nav-link">Services</a>
-    <a href="#osteopathy" class="mobile-nav-link">Osteopathy</a>
+    <a href="#osteopathy" class="mobile-nav-link">Manual Osteopathic Therapy</a>
     <a href="#training" class="mobile-nav-link">Training</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
     <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary" target="_blank" rel="noopener noreferrer">&#128197; Book Online</a>
@@ -1462,7 +1553,7 @@
   <section id="hero" aria-label="Hero">
     <div class="hero-left">
       <div class="hero-logo fade-up">
-        <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="hero-logo-img" />
+        <img src="logo.png" alt="Bee Relieved Holistic Therapies" class="hero-logo-img" />
       </div>
       <div class="hero-eyebrow fade-up delay-1">
         <span class="hero-eyebrow-line"></span>
@@ -1470,15 +1561,15 @@
       </div>
       <h1 class="hero-heading fade-up delay-2">
         Heal. Restore.<br>
-        <span class="italic-brown">Be Relieved.</span>
+        <span class="italic-brown">Bee Relieved.</span>
       </h1>
-      <p class="hero-sub fade-up delay-3">Registered massage and manual osteopathic therapy tailored to your body's unique needs — treating the root cause, not just the symptoms.</p>
+      <p class="hero-sub fade-up delay-3">Personalized registered massage and manual osteopathic therapy designed for your body’s unique needs. In a warm, welcoming space, I take the time to listen, assess, and create a treatment plan that works for you.</p>
       <div class="hero-ctas fade-up delay-3">
         <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
           &#128197; Book Online
         </a>
         <a href="tel:3068527969" class="btn btn-outline btn-lg">
-          &#128241; Call or Text: (306) 852-7969
+          &#128241; Text or call: (306) 852-7969
         </a>
       </div>
       <div class="hero-rating fade-up delay-4">
@@ -1488,7 +1579,7 @@
     </div>
 
     <div class="hero-right">
-      <img src="/uploads/JPEG%20image%204.jpeg" alt="Chloe Jackson-Kotko performing massage therapy" />
+      <img src="/uploads/Jan2025-168.jpeg" alt="Chloe Jackson-Kotko performing massage therapy" />
       <div class="hero-fade" aria-hidden="true"></div>
     </div>
   </section>
@@ -1497,7 +1588,7 @@
   <section id="about" aria-label="About Chloe Jackson-Kotko">
     <div class="about-grid">
       <div class="about-image-wrap fade-up">
-        <img src="/uploads/JPEG%20image%206.jpeg" alt="Chloe Jackson-Kotko, Registered Massage Therapist" />
+        <img src="/uploads/IMG_6250.jpeg" alt="Chloe Jackson-Kotko, Registered Massage Therapist" />
         <div class="about-badge" aria-label="5.0 star Google reviews">
           <span class="about-badge-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
           <span class="about-badge-text">Google Reviews</span>
@@ -1507,7 +1598,7 @@
       <div class="about-content">
         <span class="section-label fade-up">Meet Your Therapist</span>
         <h2 class="fade-up delay-1">Chloe <em>Jackson-Kotko</em></h2>
-        <p class="about-body fade-up delay-2">I'm a Registered Massage Therapist and Manual Osteopathic Therapist based in Saskatoon, SK. My approach goes beyond surface-level relief — I specialize in therapeutic treatment that works with all systems of the body to find the root cause of your pain or dysfunction. Whether you're dealing with chronic tension, injury recovery, postural issues, or stress, I'm here to create a personalized treatment plan. Every session is in a clean, relaxing, and welcoming environment.</p>
+        <p class="about-body fade-up delay-2">Hi there! I'm a passionate Massage Therapist and Manual Osteopathic Therapist based in Saskatoon, SK, with regular visits to Tisdale. My approach focuses on treating the cause of your pain and dysfunction, so you can experience lasting results, not just temporary relief. Whether you’re experiencing chronic tension, recovering from an injury, struggling with posture, or feeling the effects of stress, I’m here to help you feel better, move freely, and get back to doing what you love!</p>
         <div class="about-cards">
           <div class="about-card fade-up delay-2">
             <span class="about-card-icon">&#128205;</span>
@@ -1527,7 +1618,7 @@
             <span class="about-card-icon">&#127973;</span>
             <div class="about-card-text">
               <span class="about-card-label">Credentials</span>
-              Registered Massage Therapist (RMT) · Manual Osteopathic Therapist
+              Registered Massage Therapist (RMT) &amp; Manual Osteopathic Therapist (MOT)
             </div>
           </div>
         </div>
@@ -1548,33 +1639,33 @@
     <div class="services-grid">
       <article class="service-card fade-up">
         
-        <img src="/uploads/JPEG%20image.jpeg" alt="Registered Massage Therapy" class="service-img" />
+        <img src="/uploads/Jan2025-153.jpeg" alt="Registered Massage Therapy" class="service-img" />
         <div class="service-body">
-          <div class="service-icon">🙌</div>
+          <div class="service-icon">🤲🏼</div>
           <h3 class="service-title">Registered Massage Therapy</h3>
-          <p class="service-desc">Evidence-based therapeutic massage addressing muscle tension, pain, and injury. From relaxation to deep therapeutic work — tailored to what your body needs most.</p>
+          <p class="service-desc">Therapeutic massage addressing muscle tension, pain, and injury. From fascial stretching, relaxation techniques, and deep therapeutic work, each treatment is tailored to what your body needs most. Specialized techniques are used for specific areas of concern, such as TMJ dysfunction, headaches, nerve pain, and more.</p>
           <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
         </div>
       </article>
 
       <article class="service-card featured fade-up delay-1">
         
-        <img src="/uploads/osteo-shoulder-assessment.jpg" alt="Manual Osteopathic Therapy" class="service-img" style="object-position: center 30%;" />
+        <img src="/uploads/osteo-neck-work.jpg" alt="Manual Osteopathic Therapy" class="service-img" style="object-position: center 30%;" />
         <div class="service-body">
-          <div class="service-icon">⚡</div>
+          <div class="service-icon">🪴</div>
           <h3 class="service-title">Manual Osteopathic Therapy</h3>
-          <p class="service-desc">A whole-body approach treating the root cause of pain by working with musculoskeletal, fascial, and nervous systems together. More than massage — it's full-body healing.</p>
+          <p class="service-desc">A gentle approach treating the root cause of pain by working with all of the systems of the body. Improves overall alignment, fluid flow, and supports the nervous system to allow the body to heal and function at its best! More than massage — it's full-body healing.</p>
           <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
         </div>
       </article>
 
       <article class="service-card fade-up delay-2">
         
-        <img src="/uploads/JPEG%20image%207.jpeg" alt="Cupping Therapy" class="service-img" />
+        <img src="/uploads/Jan2025-115.jpeg" alt="Cupping Therapy" class="service-img" />
         <div class="service-body">
-          <div class="service-icon">⭕</div>
+          <div class="service-icon">🍄</div>
           <h3 class="service-title">Cupping Therapy</h3>
-          <p class="service-desc">Professionally certified cupping to improve circulation, release deep tissue tension, and promote healing. Often integrated into sessions for enhanced results.</p>
+          <p class="service-desc">Cupping is beneficial to improve circulation, release deep tissue tension, and free scar tissue. The marks left behind indicate the detoxification of old cells and toxins, which further promotes healing. Often integrated into sessions for enhanced results! </p>
           <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="service-link" target="_blank" rel="noopener noreferrer">Book Now &rarr;</a>
         </div>
       </article>
@@ -1586,33 +1677,41 @@
     <div class="osteo-grid">
       <div class="osteo-left">
         <span class="section-label fade-up">Education</span>
-        <h2 class="fade-up delay-1">What is Manual <em>Osteopathy?</em></h2>
-        <p class="osteo-para fade-up delay-2">Manual Osteopathy is a hands-on therapy that focuses on identifying and treating the <strong>root cause</strong> of pain and dysfunction — not just the symptoms. Unlike a standard massage, osteopathic therapy works with the body as a whole, addressing the relationships between your muscles, joints, fascia, organs, and nervous system.</p>
-        <p class="osteo-para fade-up delay-2">Osteopathic therapists are trained to assess how different body systems interact and compensate for one another. That tight shoulder? It might actually be connected to tension in your hip or restrictions in your thoracic spine. Manual osteopathy finds and resolves these connections.</p>
+        <h2 class="fade-up delay-1">What is <em>Manual Osteopathic Therapy?</em></h2>
+        <p class="osteo-para fade-up delay-2"></p>
+        <p class="osteo-para fade-up delay-2"></p>
         <div class="osteo-features fade-up delay-3">
           <div class="osteo-feature">
-            <div class="osteo-feature-title">Whole-Body Approach</div>
-            <div class="osteo-feature-desc">Treats the body as an interconnected system, not isolated parts.</div>
+            <div class="osteo-feature-title">Thorough Initial Assessment</div>
+            <div class="osteo-feature-desc">Your first visit includes an in-depth discussion of your health history, and a detailed assessment of your posture and physical function to further understand your body.</div>
           </div>
           <div class="osteo-feature">
-            <div class="osteo-feature-title">Root Cause Focus</div>
-            <div class="osteo-feature-desc">Identifies why dysfunction is occurring, not just where it hurts.</div>
+            <div class="osteo-feature-title">Osteoarticular Adjustments</div>
+            <div class="osteo-feature-desc">A gentle way to improve joint movement and position using light muscle contractions instead of high force thrusts, with no cracking involved.</div>
           </div>
           <div class="osteo-feature">
-            <div class="osteo-feature-title">Gentle Techniques</div>
-            <div class="osteo-feature-desc">Soft tissue, joint mobilization, and fascial release methods.</div>
+            <div class="osteo-feature-title">Myofascial Release</div>
+            <div class="osteo-feature-desc">Slow, sustained stretching of soft tissues to release tension and improve movement — the part of a massage without oil.</div>
           </div>
           <div class="osteo-feature">
-            <div class="osteo-feature-title">Lasting Results</div>
-            <div class="osteo-feature-desc">Addresses patterns of tension for long-term recovery.</div>
+            <div class="osteo-feature-title">Craniosacral Therapy</div>
+            <div class="osteo-feature-desc">Subtle techniques that release restrictions within the cranial bones(skull), sacrum, and spinal cord to support your nervous system.</div>
+          </div>
+          <div class="osteo-feature">
+            <div class="osteo-feature-title">Visceral Manipulation</div>
+            <div class="osteo-feature-desc">Uses gentle myofascial techniques to restore the natural movement and function of your internal organs. Used to support the digestive, reputation, urinary and reproductive systems!</div>
+          </div>
+          <div class="osteo-feature">
+            <div class="osteo-feature-title">Lymphatic Drainage</div>
+            <div class="osteo-feature-desc">Encourages healthy lymphatic flow to help reduce swelling and support your body’s natural detox process.</div>
           </div>
         </div>
         <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-primary fade-up delay-4" target="_blank" rel="noopener noreferrer">Book an Osteopathy Session</a>
       </div>
 
       <div class="osteo-right fade-up delay-1">
-        <img src="/uploads/osteo-neck-work.jpg" alt="Chloe performing manual osteopathic therapy" class="osteo-img-main" />
-        <img src="/uploads/osteo-adjustment.jpg" alt="Manual osteopathic spinal adjustment" class="osteo-img-overlay" style="filter: grayscale(20%); object-position: center 30%;" />
+        <img src="/uploads/Jan2025-142.jpeg" alt="Chloe performing manual osteopathic therapy" class="osteo-img-main" />
+        <img src="/uploads/sneakpeek-04.jpeg" alt="Manual osteopathic spinal adjustment" class="osteo-img-overlay" style="filter: grayscale(20%); object-position: center 30%;" />
       </div>
     </div>
   </section>
@@ -1626,29 +1725,29 @@
 
     <div class="training-grid">
       <article class="training-card fade-up">
-        <div class="training-icon">🎓</div>
+        <div class="training-icon">🤲🏼</div>
         <h3 class="training-card-title">Advanced Massage Therapy Diploma</h3>
-        <div class="training-card-sub">Professional Institute of Massage Therapy · With Distinction</div>
-        <img src="/uploads/WebP%20Image.webp" alt="Advanced Massage Therapy Diploma" class="training-card-img" style="object-position: center 30%;" />
-        <p class="training-card-desc">Comprehensive training in anatomy, physiology, pathology, and hands-on therapeutic massage techniques — awarded With Distinction.</p>
+        <div class="training-card-sub">Professional Institute of Massage Therapy &middot; April 2024</div>
+        <img src="/uploads/IMG_6180.jpeg" alt="Advanced Massage Therapy Diploma" class="training-card-img" style="object-position: center 30%;" />
+        <p class="training-card-desc">Comprehensive training in anatomy, physiology, pathology, and hands-on therapeutic massage techniques — awarded with Distinction.</p>
         <span class="training-badge">✓ Registered RMT</span>
       </article>
 
       <article class="training-card fade-up delay-1">
-        <div class="training-icon">🦴</div>
-        <h3 class="training-card-title">Manual Osteopathic Therapy</h3>
-        <div class="training-card-sub">Manual Osteopathy Diploma Program</div>
-        <p class="training-card-desc">Advanced training in osteopathic principles, full-body assessment, fascial release, joint mobilization, and visceral manipulation.</p>
-        <span class="training-badge">✓ Certified</span>
+        <div class="training-icon">🪴</div>
+        <h3 class="training-card-title">Manual Osteopathic Practice Diploma</h3>
+        <div class="training-card-sub">Manual Osteopathic College of Canada &middot; March 2026</div>
+        <p class="training-card-desc">Advanced training in osteopathic principles, full-body assessment, fascial release, joint mobilization, craniosacral therapy, and visceral manipulation.</p>
+        <span class="training-badge">✓ Licensed Manual Osteopathic Therapist</span>
       </article>
 
       <article class="training-card fade-up delay-2">
-        <div class="training-icon">⭕</div>
+        <div class="training-icon">🍄</div>
         <h3 class="training-card-title">Professional Cupping Therapies</h3>
-        <div class="training-card-sub">Whole Health Institute · Manitoba Beach, SK &middot; November 2024</div>
-        <img src="/uploads/JPEG%20image%203.jpeg" alt="Professional Cupping Therapies" class="training-card-img" />
+        <div class="training-card-sub">Whole Health Institute &middot; November 2024</div>
+        <img src="/uploads/IMG_7178.jpeg" alt="Professional Cupping Therapies" class="training-card-img" />
         <p class="training-card-desc">14-hour professional certification in cupping therapy including static, dynamic, and gliding cup techniques.</p>
-        <span class="training-badge">✓ Certified Nov 2024</span>
+        <span class="training-badge">✓ Certified</span>
       </article>
     </div>
   </section>
@@ -1671,11 +1770,11 @@
       <article class="review-card fade-up">
         <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">She did a great job, table was comfy, clean room, great massage.</p>
+        <p class="review-text">Chloe gave me an incredible massage and cupping! She has an excellent intuition for finding the course of muscle tension and targeting areas that need attention.</p>
         <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">C</div>
+          <div class="review-avatar" aria-hidden="true">N</div>
           <div class="review-author-info">
-            <span class="review-name">Chad Turgeon</span>
+            <span class="review-name">Nicolas Franke</span>
             <span class="review-platform">Google Review</span>
           </div>
         </div>
@@ -1684,11 +1783,11 @@
       <article class="review-card fade-up delay-1">
         <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">Relaxing, calm and clean environment.</p>
+        <p class="review-text">I went to my first ever osteopathy assessment/ treatment with Chloe. Being unsure of what to expect, the experience was nothing but positive. I left the treatment feeling more calm and relaxed. My body felt more open and mobile than I honestly expected possible from such gentle manipulations</p>
         <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">S</div>
+          <div class="review-avatar" aria-hidden="true">T</div>
           <div class="review-author-info">
-            <span class="review-name">Supernova</span>
+            <span class="review-name">Teana Deforest</span>
             <span class="review-platform">Google Review</span>
           </div>
         </div>
@@ -1697,15 +1796,47 @@
       <article class="review-card fade-up delay-2">
         <div class="review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <div class="review-quote-icon" aria-hidden="true">&ldquo;</div>
-        <p class="review-text">The room is very clean and relaxing atmosphere.</p>
+        <p class="review-text">I have been seeing Chloe for a few months now and I have received the best massages. She is very knowledgeable and has been very helpful in my back surgery recovery. I highly recommend her, you will not be disappointed.</p>
         <div class="review-author">
-          <div class="review-avatar" aria-hidden="true">D</div>
+          <div class="review-avatar" aria-hidden="true">R</div>
           <div class="review-author-info">
-            <span class="review-name">Darlene Jackson</span>
+            <span class="review-name">Renee Trombley</span>
             <span class="review-platform">Google Review</span>
           </div>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- CANCELLATION POLICY -->
+  <section id="cancellation" aria-label="Cancellation Policy">
+    <div class="cancel-inner">
+      <span class="section-label fade-up">Policies</span>
+      <h2 class="fade-up delay-1">Cancellation <em>Policy</em></h2>
+      <p class="cancel-intro fade-up delay-2">
+        Your appointment time is reserved especially for you. To respect everyone&rsquo;s schedule, please review the cancellation policy below.
+      </p>
+      <div class="cancel-cards fade-up delay-2">
+        <div class="cancel-card">
+          <div class="cancel-card-pct">50%</div>
+          <div class="cancel-card-label">Cancelled within 12 hours</div>
+          <div class="cancel-card-desc">A 50% charge applies if the appointment is cancelled within 12 hours of the scheduled time.</div>
+        </div>
+        <div class="cancel-card">
+          <div class="cancel-card-pct">100%</div>
+          <div class="cancel-card-label">Cancelled within 6 hours</div>
+          <div class="cancel-card-desc">The full session fee will be charged if cancelled within 6 hours of the scheduled time.</div>
+        </div>
+        <div class="cancel-card">
+          <div class="cancel-card-pct">100%</div>
+          <div class="cancel-card-label">No Show</div>
+          <div class="cancel-card-desc">The full session fee will be charged for missed appointments without prior notice.</div>
+        </div>
+      </div>
+      <div class="cancel-note fade-up delay-3">
+        <span class="cancel-note-icon">&#128179;</span>
+        <span>Your credit card on file will be charged within <strong>24 hours</strong> of the missed or late-cancelled appointment if I have not been contacted. Please reach out as soon as possible if you need to make changes &mdash; texting is the fastest way to reach me.</span>
+      </div>
     </div>
   </section>
 
@@ -1715,7 +1846,7 @@
       <img src="logo.png" alt="" aria-hidden="true" class="fade-up" style="height:100px;width:auto;margin:0 auto 1.5rem;display:block;opacity:0.9;" />
       <span class="section-label fade-up" style="color: var(--blush); opacity: 0.7;">Ready to Feel Better?</span>
       <h2 class="fade-up delay-1">Book Your Session <em>Today</em></h2>
-      <p class="booking-sub fade-up delay-2">Online booking is fast and easy through Jane App. Prefer to reach out first? Text us for the fastest response.</p>
+      <p class="booking-sub fade-up delay-2">Online booking is fast and easy through Jane App. Prefer to reach out first? Text me for the fastest response.</p>
       <div class="booking-buttons fade-up delay-3">
         <a href="https://ithc.janeapp.com/locations/integrative-therapies-health-collective/book#/staff_member/11" class="btn btn-cream btn-lg" target="_blank" rel="noopener noreferrer">
           &#128197; Book Online &mdash; Jane App
@@ -1737,7 +1868,7 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-col-brand">
-        <img src="logo.png" alt="Bee Relieved Massage &amp; Manual Osteopathic Therapy" class="footer-logo-img" />
+        <img src="logo.png" alt="Bee Relieved Holistic Therapies" class="footer-logo-img" />
         <div class="footer-brand-name">Bee Relieved</div>
         <div class="footer-tagline">Massage &amp; Manual Osteopathic Therapy</div>
         <p class="footer-desc">
@@ -1799,7 +1930,7 @@
     </div>
 
     <div class="footer-bar">
-      <span class="footer-copyright">&copy; 2026 Bee Relieved Massage &amp; Manual Osteopathic Therapy &middot; Chloe Jackson-Kotko &middot; Saskatoon, SK</span>
+      <span class="footer-copyright">&copy; 2026 Bee Relieved Holistic Therapies &middot; Chloe Jackson-Kotko &middot; Saskatoon, SK</span>
       <span class="footer-made">All rights reserved</span>
     </div>
   </footer>

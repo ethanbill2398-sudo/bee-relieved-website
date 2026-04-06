@@ -1158,6 +1158,97 @@ const html = `<!DOCTYPE html>
     }
 
     /* ============================================================
+       CANCELLATION POLICY
+    ============================================================ */
+    #cancellation {
+      background: var(--blush);
+      padding: 5rem 8%;
+    }
+
+    .cancel-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .cancel-inner h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .cancel-intro {
+      font-size: 0.95rem;
+      color: var(--dark);
+      opacity: 0.7;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .cancel-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .cancel-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border-top: 3px solid var(--brown);
+    }
+
+    .cancel-card-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: var(--brown);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .cancel-card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .cancel-card-desc {
+      font-size: 0.875rem;
+      color: var(--dark);
+      opacity: 0.68;
+      line-height: 1.6;
+    }
+
+    .cancel-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: rgba(130,88,49,0.07);
+      border-left: 3px solid var(--brown);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.25rem;
+      font-size: 0.88rem;
+      color: var(--dark);
+      line-height: 1.65;
+    }
+
+    .cancel-note-icon {
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      #cancellation { padding: 4rem 5%; }
+      .cancel-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
        BOOKING CTA
     ============================================================ */
     #booking {
@@ -1584,7 +1675,7 @@ const html = `<!DOCTYPE html>
     <ul class="nav-links" role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
-      <li><a href="#osteopathy">Osteopathy</a></li>
+      <li><a href="#osteopathy">Manual Osteopathic Therapy</a></li>
       <li><a href="#training">Training</a></li>
       <li><a href="#reviews">Reviews</a></li>
     </ul>
@@ -1600,7 +1691,7 @@ const html = `<!DOCTYPE html>
   <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
     <a href="#about" class="mobile-nav-link">About</a>
     <a href="#services" class="mobile-nav-link">Services</a>
-    <a href="#osteopathy" class="mobile-nav-link">Osteopathy</a>
+    <a href="#osteopathy" class="mobile-nav-link">Manual Osteopathic Therapy</a>
     <a href="#training" class="mobile-nav-link">Training</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
     <a href="${BOOK_URL}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">&#128197; Book Online</a>
@@ -1747,6 +1838,38 @@ ${trainingCards()}
 
     <div class="reviews-grid">
 ${reviewCards()}
+    </div>
+  </section>
+
+  <!-- CANCELLATION POLICY -->
+  <section id="cancellation" aria-label="Cancellation Policy">
+    <div class="cancel-inner">
+      <span class="section-label fade-up">Policies</span>
+      <h2 class="fade-up delay-1">Cancellation <em>Policy</em></h2>
+      <p class="cancel-intro fade-up delay-2">
+        Your appointment time is reserved especially for you. To respect everyone&rsquo;s schedule, please review the cancellation policy below.
+      </p>
+      <div class="cancel-cards fade-up delay-2">
+        <div class="cancel-card">
+          <div class="cancel-card-pct">50%</div>
+          <div class="cancel-card-label">Cancelled within 12 hours</div>
+          <div class="cancel-card-desc">A 50% charge applies if the appointment is cancelled within 12 hours of the scheduled time.</div>
+        </div>
+        <div class="cancel-card">
+          <div class="cancel-card-pct">100%</div>
+          <div class="cancel-card-label">Cancelled within 6 hours</div>
+          <div class="cancel-card-desc">The full session fee will be charged if cancelled within 6 hours of the scheduled time.</div>
+        </div>
+        <div class="cancel-card">
+          <div class="cancel-card-pct">100%</div>
+          <div class="cancel-card-label">No Show</div>
+          <div class="cancel-card-desc">The full session fee will be charged for missed appointments without prior notice.</div>
+        </div>
+      </div>
+      <div class="cancel-note fade-up delay-3">
+        <span class="cancel-note-icon">&#128179;</span>
+        <span>Your credit card on file will be charged within <strong>24 hours</strong> of the missed or late-cancelled appointment if I have not been contacted. Please reach out as soon as possible if you need to make changes &mdash; texting is the fastest way to reach me.</span>
+      </div>
     </div>
   </section>
 
