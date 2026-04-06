@@ -1870,8 +1870,8 @@ ${serviceCards()}
       <div class="osteo-left">
         <span class="section-label fade-up">${esc(osteo.sectionLabel)}</span>
         <h2 class="fade-up delay-1">${esc(osteo.heading)} <em>${esc(osteo.headingItalic)}</em></h2>
-        <p class="osteo-para fade-up delay-2">${richToHtml(osteo.paragraph1)}</p>
-        <p class="osteo-para fade-up delay-2">${richToHtml(osteo.paragraph2)}</p>
+        <p class="osteo-para fade-up delay-2">${esc(osteo.paragraph1)}</p>
+        <p class="osteo-para fade-up delay-2">${esc(osteo.paragraph2)}</p>
         <div class="osteo-features fade-up delay-3">
 ${osteoFeatureTiles()}
         </div>
@@ -1895,7 +1895,6 @@ ${osteoFeatureTiles()}
       </div>
       <div class="insurance-grid fade-up delay-2">
         <div class="insurance-pill">Canada Life</div>
-        <div class="insurance-pill">Canada Benefit Providers</div>
         <div class="insurance-pill">Chamber of Commerce Insurance</div>
         <div class="insurance-pill">CINUP</div>
         <div class="insurance-pill">ClaimSecure</div>
