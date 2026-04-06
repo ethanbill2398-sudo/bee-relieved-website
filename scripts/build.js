@@ -1925,7 +1925,7 @@ ${reviewCards()}
         <ul class="footer-links" role="list">
           <li><a href="#about">About Chloe</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#osteopathy">What is Osteopathy?</a></li>
+          <li><a href="#osteopathy">Manual Osteopathic Therapy</a></li>
           <li><a href="#training">Training &amp; Education</a></li>
           <li><a href="#reviews">Client Reviews</a></li>
         </ul>
