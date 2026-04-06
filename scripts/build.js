@@ -1161,6 +1161,78 @@ const html = `<!DOCTYPE html>
     }
 
     /* ============================================================
+       INSURANCE COVERAGE
+    ============================================================ */
+    #insurance {
+      background: var(--cream);
+      padding: 6rem 8%;
+    }
+
+    .insurance-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .insurance-header h2 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .insurance-sub {
+      font-size: 0.95rem;
+      color: var(--dark);
+      opacity: 0.65;
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .insurance-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .insurance-pill {
+      background: var(--blush);
+      border: 1.5px solid rgba(130,88,49,0.18);
+      color: var(--dark);
+      padding: 0.5rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 0.02em;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .insurance-pill:hover {
+      background: rgba(130,88,49,0.1);
+      border-color: var(--brown);
+    }
+
+    .insurance-note {
+      font-size: 0.88rem;
+      color: var(--dark);
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .insurance-note a {
+      color: var(--brown);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #insurance { padding: 4rem 5%; }
+    }
+
+    /* ============================================================
        CANCELLATION POLICY
     ============================================================ */
     #cancellation {
@@ -1749,7 +1821,7 @@ const html = `<!DOCTYPE html>
       <div class="about-content">
         <span class="section-label fade-up">Meet Your Therapist</span>
         <h2 class="fade-up delay-1">${esc(HP.about.therapistName)} <em>${esc(HP.about.therapistNameItalic)}</em></h2>
-        <p class="about-body fade-up delay-2">${esc(HP.about.bio)}</p>
+        <div class="about-body fade-up delay-2">${HP.about.bio.split('\n\n').map(p => `<p style="margin-bottom:1rem">${esc(p.trim())}</p>`).join('')}</div>
         <div class="about-cards">
           <div class="about-card fade-up delay-2">
             <span class="about-card-icon">&#128205;</span>
@@ -1810,6 +1882,44 @@ ${osteoFeatureTiles()}
         <img src="${imgSrc(osteo.mainImage)}" alt="Chloe performing manual osteopathic therapy" class="osteo-img-main" />
         <img src="${imgSrc(osteo.overlayImage)}" alt="Manual osteopathic spinal adjustment" class="osteo-img-overlay" style="filter: grayscale(20%); object-position: center 30%;" />
       </div>
+    </div>
+  </section>
+
+  <!-- INSURANCE COVERAGE -->
+  <section id="insurance" aria-label="Insurance Coverage">
+    <div class="insurance-inner">
+      <div class="insurance-header fade-up">
+        <span class="section-label">Direct Billing</span>
+        <h2>Insurance <em>Coverage</em></h2>
+        <p class="insurance-sub">Manual osteopathic therapy may be covered under your extended health benefits. The following providers are among those that may offer coverage — check your plan details for confirmation.</p>
+      </div>
+      <div class="insurance-grid fade-up delay-2">
+        <div class="insurance-pill">Canada Life</div>
+        <div class="insurance-pill">Canada Benefit Providers</div>
+        <div class="insurance-pill">Chamber of Commerce Insurance</div>
+        <div class="insurance-pill">CINUP</div>
+        <div class="insurance-pill">ClaimSecure</div>
+        <div class="insurance-pill">ClaimXchange</div>
+        <div class="insurance-pill">Desjardins Insurance</div>
+        <div class="insurance-pill">Empire Life</div>
+        <div class="insurance-pill">Equitable Life</div>
+        <div class="insurance-pill">Greenshield</div>
+        <div class="insurance-pill">GroupHEALTH</div>
+        <div class="insurance-pill">Group Medical Services (GMS)</div>
+        <div class="insurance-pill">Group Source</div>
+        <div class="insurance-pill">Johnston Group</div>
+        <div class="insurance-pill">Manitoba Blue Cross</div>
+        <div class="insurance-pill">Manulife</div>
+        <div class="insurance-pill">Maximum Benefits</div>
+        <div class="insurance-pill">NexGenRX</div>
+        <div class="insurance-pill">Pacific Blue Cross</div>
+        <div class="insurance-pill">People Corporation</div>
+        <div class="insurance-pill">Saskatchewan Blue Cross</div>
+        <div class="insurance-pill">SSQ Financial</div>
+        <div class="insurance-pill">Sunlife</div>
+        <div class="insurance-pill">The Co-Operators</div>
+      </div>
+      <p class="insurance-note fade-up delay-3">&#10003;&nbsp; Not sure if you're covered? Contact your provider or <a href="tel:${phoneDigits}">reach out to me</a> and I can help.</p>
     </div>
   </section>
 
